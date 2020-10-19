@@ -2,7 +2,7 @@ const Express = require('express');
 const Webpage = require('../../webpage.js');
 
 const pageTemplate = Webpage.Template.fromFile(
-	'dynamic/raycast/index.html');
+	__dirname + '/index.html');
 
 const router = Express.Router();
 
@@ -30,7 +30,7 @@ function getIndex(req, res) {
 
 
 
-router.use('/', Express.static('dynamic/raycast/static'));
+router.use('/', Express.static(__dirname + '/static'));
 
 router.get('/', getIndex);
 router.get('/index.html', getIndex);

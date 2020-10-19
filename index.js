@@ -18,10 +18,10 @@ const port = function () {
 } ();
 
 // Set the working directory to this file's container if the cwd
-// doesn't have the required directories, "static/" and "dynamic/"
+// doesn't have the required directories, "static/" and "routes/"
 if(! (
 	Fs.existsSync('./static/') && Fs.statSync('./static/').isDirectory() &&
-	Fs.existsSync('./dynamic/') && Fs.statSync('./dynamic/').isDirectory()
+	Fs.existsSync('./routes/') && Fs.statSync('./routes/').isDirectory()
 )) {
 	if(verbose) console.log(
 		'= Current working directory is missing certain files;\n'+
@@ -49,10 +49,9 @@ function rootHandler(req, res) {
 		send(ROOT_REDIRECT.string);
 }
 
-
 app.get('/', rootHandler);
 
 app.use('/', Express.static('static'));
-app.use('/raycast', require('./dynamic/raycast/route.js'));
+app.use('/raycast', require('./routes/raycast/route.js'));
 
 app.listen(port, () => console.log('Server listening on port '+port));
