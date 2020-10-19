@@ -30,7 +30,7 @@ function getIndex(req, res) {
 
 
 
-router.use('/', Express.static('static/raycast'));
+router.use('/', Express.static('dynamic/raycast/static'));
 
 router.get('/', getIndex);
 router.get('/index.html', getIndex);
