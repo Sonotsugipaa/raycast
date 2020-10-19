@@ -1,5 +1,11 @@
+global.requireLocal;
+requireLocal = function requireLocal(mod) {
+	return require(__dirname+'/project_modules/'+mod); }
+
+
+
 const Express = require('express');
-const Webpage = require('./webpage.js');
+const Webpage = requireLocal('webpage.js');
 const Fs = require('fs');
 
 const verbose = false;

@@ -1,5 +1,5 @@
 const Express = require('express');
-const Webpage = require('../../webpage.js');
+const Webpage = requireLocal('webpage');
 
 const pageTemplate = Webpage.Template.fromFile(
 	__dirname + '/index.html');
