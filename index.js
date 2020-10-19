@@ -5,7 +5,8 @@ requireLocal = function requireLocal(mod) {
 
 
 const Express = require('express');
-const Webpage = requireLocal('webpage.js');
+const Webpage = requireLocal('webpage');
+const Redirect = requireLocal('redirect');
 const Fs = require('fs');
 
 const app = Express();
@@ -67,25 +68,11 @@ if(! (
 
 
 
-// Static webpage that needs to be created from a template
-const ROOT_REDIRECT = new Webpage(
-	Webpage.Template.fromFile('redirect.html'),
-	{ redirect: 'url=\'raycast/\'' });
+const rootRedirect = new Redirect('/raycast/index.html?res=1800x780');
 
-// Hands out a redirecting HTML page,
-// as well as sending a HTTP 301 response
-function rootHandler(req, res) {
-	res.status(301).
-		set({
-			'Location':
-				req.protocol+'://'+req.get('Host')+
-				'/raycast/index.html?res=1000x800',
-			'Content-Type': 'text/html'
-		}).
-		send(ROOT_REDIRECT.string);
-}
 
-app.get('/', rootHandler);
+
+app.get('/', (rq, rs) => { rootRedirect.sendFullRedirect(rq, rs); });
 
 app.use('/', Express.static('static'));
 app.use('/raycast', require('./routes/raycast/route.js'));
