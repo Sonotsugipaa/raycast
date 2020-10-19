@@ -8,20 +8,50 @@ const Express = require('express');
 const Webpage = requireLocal('webpage.js');
 const Fs = require('fs');
 
-const verbose = false;
 const app = Express();
 
+global.verbose;  verbose = false;
 
 
-// Get bind port from arguments
-const port = function () {
-	if(process.argv.length > 2) {
-		let arg = Number(process.argv[2]);
-		if(typeof arg === 'number' && ! isNaN(arg)) {
-			return arg; }
+
+// Get bind options from arguments
+const options = (() => {
+	let r = {
+		host: '::',
+		port: 80
+	};
+	function verifyPort(port) {
+		port = Number(process.argv[2]);
+		console.log(process.argv);
+		if(typeof port !== 'number' || isNaN(port)) {
+			console.error('Invalid port: "'+port+'"');
+			process.exit(1);
+		} else {
+			return port;
+		}
 	}
-	return 80;
-} ();
+	switch(process.argv.length) {
+		case 0: // ?
+		case 1: // also '?'
+		case 2: // default options
+			break;
+		case 3: // only port
+			port = verifyPort(process.argv[2]);
+			break;
+		case 4: // host, port
+			host = process.argv[2];
+			port = verifyPort(process.argv[3]);
+			break;
+		default:
+			console.error(
+				'Invalid syntax. The application\'s arguments must use either syntax:'+
+				'\n\tnode '+process.argv[1]+' [port]'+
+				'\n\tnode '+process.argv[1]+' [host] [port]');
+			process.exit(1);
+			break;
+	}
+	return r;
+}) ();
 
 // Set the working directory to this file's container if the cwd
 // doesn't have the required directories, "static/" and "routes/"
@@ -60,4 +90,6 @@ app.get('/', rootHandler);
 app.use('/', Express.static('static'));
 app.use('/raycast', require('./routes/raycast/route.js'));
 
-app.listen(port, () => console.log('Server listening on port '+port));
+app.listen(
+	options.port,
+	() => console.log('Server listening on '+options.host+', port '+options.port));
