@@ -84,6 +84,4 @@ function draw() {
 
 	particle.show();
 	particle.cast(walls);
-
-	//for(let wall of walls) { wall.show(); }
 }

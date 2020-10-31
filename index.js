@@ -22,8 +22,7 @@ const options = (() => {
 		port: 80
 	};
 	function verifyPort(port) {
-		port = Number(process.argv[2]);
-		console.log(process.argv);
+		port = Number(port);
 		if(typeof port !== 'number' || isNaN(port)) {
 			console.error('Invalid port: "'+port+'"');
 			process.exit(1);
@@ -37,11 +36,11 @@ const options = (() => {
 		case 2: // default options
 			break;
 		case 3: // only port
-			port = verifyPort(process.argv[2]);
+			r.port = verifyPort(process.argv[2]);
 			break;
 		case 4: // host, port
-			host = process.argv[2];
-			port = verifyPort(process.argv[3]);
+			r.host = process.argv[2];
+			r.port = verifyPort(process.argv[3]);
 			break;
 		default:
 			console.error(

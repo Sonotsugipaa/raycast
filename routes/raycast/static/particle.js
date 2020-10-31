@@ -1,4 +1,4 @@
-function mkTracers(walls) {
+function mkBoundaryTracers(walls) {
 	let tracers = [];
 	for(let wall of walls) {
 		tracers.push(new Boundary.Tracer(wall)); }
@@ -18,12 +18,16 @@ class Particle {
 	}
 
 	show() {
-		fill(255);
-		ellipse(this.pos.x, this.pos.y, 16);
+		stroke(255, 100);
+		ellipse(this.pos.x, this.pos.y, 7);
 	}
 
 	cast(walls) {
-		let tracers = mkTracers(walls);
+		let bTracers;
+		if(BOUNDARY_OPACITY > 0) {
+			bTracers = mkBoundaryTracers(walls); }
+		stroke(255, PARTICLE_LINE_OPACITY);
+		strokeWeight(PARTICLE_LINE_WIDTH);
 		for(let ray of this.rays) {
 			let closestPt = null;
 			let closestWallIndex = null;
@@ -41,17 +45,16 @@ class Particle {
 				}
 			}
 			if(closestPt) {
-				/*stroke(255, 1.0);  strokeWeight(PARTICLE_LINE_WIDTH);
-				line(this.pos.x, this.pos.y, closestPt.x, closestPt.y);*/
-				stroke(255, PARTICLE_LINE_OPACITY);
-				strokeWeight(PARTICLE_LINE_WIDTH);
 				line(this.pos.x, this.pos.y, closestPt.x, closestPt.y);
-				tracers[closestWallIndex].see(closestPt);
+				if(BOUNDARY_OPACITY > 0) {
+					bTracers[closestWallIndex].see(closestPt); }
 			}
 		}
 		if(BOUNDARY_OPACITY > 0) {
-			for(let tracer of tracers) {
-				tracer.draw(255, BOUNDARY_OPACITY, BOUNDARY_LINE_WIDTH); }
+			stroke(255, BOUNDARY_OPACITY);
+			strokeWeight(BOUNDARY_LINE_WIDTH);
+			for(let tracer of bTracers) {
+				tracer.draw(); }
 		}
 	}
 }

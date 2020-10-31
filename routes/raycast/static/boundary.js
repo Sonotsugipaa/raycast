@@ -50,9 +50,7 @@ Boundary.Tracer = class BoundaryTracer {
 		this._tryClosestB(pt, db);
 	}
 
-	draw(gray, transparency, strokeWidth) {
-		stroke(gray, transparency);
-		strokeWeight(strokeWidth);
+	draw() {
 		if(this.closestToA != null) {
 			if(this.closestToB != null) {
 				line(
