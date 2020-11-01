@@ -75,6 +75,7 @@ app.get('/', (rq, rs) => { rootRedirect.sendFullRedirect(rq, rs); });
 
 app.use('/', Express.static('static'));
 app.use('/raycast', require('./routes/raycast/route.js'));
+app.use('/sepaxthian', require('./routes/sepaxthian/route.js'));
 
 app.listen(
 	options.port,
