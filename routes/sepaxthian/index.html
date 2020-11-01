@@ -10,6 +10,10 @@
     <style>
       body {
         background-color: #0d0d0d;
+        color: #eee;
+      }
+      h1 {
+        margin: 10px;
       }
       main {
         width: 100%;
@@ -25,6 +29,10 @@
     </style>
   </head>
   <body>
+    <main>
+      <h1>Use the left mouse button to create/move a line</h1>
+      <div id="canvas-container"></div>
+    </main>
     <script>
       const PARAM_WIDTH = [[[PARAM 'width']]];
       const PARAM_HEIGHT = [[[PARAM 'height']]];

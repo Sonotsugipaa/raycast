@@ -2,6 +2,11 @@ const Express = require('express');
 const Webpage = requireLocal('webpage');
 const Redirect = requireLocal('redirect');
 
+const DEFAULT_SIZE = {
+	width: 1000,
+	height: 700
+};
+
 
 
 const pageTemplate = Webpage.Template.fromFile(
@@ -9,18 +14,19 @@ const pageTemplate = Webpage.Template.fromFile(
 
 const router = Express.Router();
 
-const rootRedirect = new Redirect('index.html?res=1800x780');
+const rootRedirect = new Redirect(
+	'index.html?res='+DEFAULT_SIZE.width+'x'+DEFAULT_SIZE.height);
 
 
 
 function getIndex(req, res) {
-	let resolution = req.query.res ?? '1000x780';
+	let resolution = req.query.res ?? (DEFAULT_SIZE.width+'x'+DEFAULT_SIZE.height);
 	let error = null;
 	resolution = resolution.match(/^(\d*)x(\d*)$/) ??
-		[, 1000, 800];
+		[, DEFAULT_SIZE.width, DEFAULT_SIZE.height];
 	let [ width, height ] = [
-		resolution[1] ?? '1000',
-		resolution[2] ?? '780'
+		resolution[1] ?? String(DEFAULT_SIZE.width),
+		resolution[2] ?? String(DEFAULT_SIZE.height)
 	];
 	let page = new Webpage(pageTemplate, {
 		width: width,
